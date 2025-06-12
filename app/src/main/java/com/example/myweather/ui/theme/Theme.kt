@@ -1,7 +1,11 @@
 package com.example.myweather.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
+import androidx.core.app.ComponentActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import kotlin.properties.Delegates
 
 data class WeatherColorScheme(
@@ -55,9 +59,11 @@ val darkWeatherColorScheme = WeatherColorScheme(
 object MyWeatherTheme {
     var colors: WeatherColorScheme = lightWeatherColorScheme
     var isDay by Delegates.notNull<Boolean>()
-    fun setTheme(isDay: Boolean){
+    @Composable
+    fun SetTheme(isDay: Boolean){
         colors = if (isDay) lightWeatherColorScheme else darkWeatherColorScheme
         this.isDay = isDay
+        SetStatusBarIconColor(isDay)
     }
 }
 
@@ -66,6 +72,15 @@ fun MyWeatherTheme(
     isDay: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    MyWeatherTheme.setTheme(isDay = isDay)
+    MyWeatherTheme.SetTheme(isDay = isDay)
     content()
+}
+
+@SuppressLint("RestrictedApi")
+@Composable
+fun SetStatusBarIconColor(isDarkIcons: Boolean) {
+    val view = LocalView.current
+    val window = (view.context as? ComponentActivity)?.window ?: return
+    val insetsController = WindowInsetsControllerCompat(window, view)
+    insetsController.isAppearanceLightStatusBars = isDarkIcons
 }

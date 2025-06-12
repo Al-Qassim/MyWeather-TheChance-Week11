@@ -5,7 +5,7 @@ import com.example.myweather.ui.theme.MyWeatherTheme
 
 @Composable
 fun getFakeWeatherState(isDay: Boolean = true): WeatherState {
-    MyWeatherTheme.setTheme(isDay = isDay)
+    MyWeatherTheme.SetTheme(isDay = isDay)
     return WeatherState(
         weatherSummaryState = WeatherSummaryState(
             city = "California",
